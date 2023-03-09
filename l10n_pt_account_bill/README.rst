@@ -1,5 +1,5 @@
 ==================================
-Portugal InvoiceXpress Integration
+Portugal BILL Integration
 ==================================
 
 .. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -25,7 +25,7 @@ Portugal InvoiceXpress Integration
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-Generate Portuguese tax authority legal Invoices ("Faturas") using InvoiceXpress.
+Generate Portuguese tax authority legal Invoices ("Faturas") using BILL.
 
 **UPDATE November/2021:**
 
@@ -44,18 +44,18 @@ Invoices:
 - Added to Credit Notes the link to the source Invoice
 
 
-InvoiceXpress is a paid service.
+BILL is a paid service.
 Visit https://invoicexpress.com for more details.
 
-Once the InvoiceXpress connection is configured,
-the invoice CONFIRM button automatically generates the InvoiceXpress invoice.
+Once the BILL connection is configured,
+the invoice CONFIRM button automatically generates the BILL invoice.
 
-If the InvoiceXpress Invoice email template is configured,
-the InvoiceXpress service will also send the invoice by email,
+If the BILL Invoice email template is configured,
+the BILL service will also send the invoice by email,
 using the details in Odoo configured email template.
 
 This replaces the Odoo SEND & PRINT button,
-since only the InvoiceXpress generated document should be used.
+since only the BILL generated document should be used.
 Having other print layouts for the invoice is not allowed
 by the Portuguese Tax Authority.
 
@@ -73,14 +73,14 @@ Configuration
 To configure:
 
 - Navigate to Settings/General Settings.
-- In the "General Settings" configuration section, locate the "InvoiceXpress" subsection:
+- In the "General Settings" configuration section, locate the "BILL" subsection:
   There you can set:
 
-  - InvoiceXpress Account Name
-  - InvoiceXpress API Key
-  - InvoiceXpress Invoice Email Template
+  - BILL Account Name
+  - BILL API Key
+  - BILL Invoice Email Template
 
-The email template is used to prepare the details for the email the InvoiceXpress
+The email template is used to prepare the details for the email the BILL
 service sends with the invoice:
 
 - "To" email address
@@ -91,12 +91,12 @@ service sends with the invoice:
 Translations are supported, and the customer language is used to render
 the email details.
 
-The InvoiceXpress configuration is per company,
+The BILL configuration is per company,
 and can also be modified directly on the Company form,
 if the Developer Mode is enabled.
 
 On the Journal form, for sales journals, a flag is available to allow disabling
-the InvoiceXpress integration. This can be useful for a journal that was used temporarily
+the BILL integration. This can be useful for a journal that was used temporarily
 to import invoice history, for reporting purposes, ond was then disabled,
 or to allow that journal to use a different legal invoicing system.
 
@@ -109,13 +109,13 @@ Usage
 =====
 
 On an Invoice, the CONFIRM button automatically generates
-an invoice on the InvoiceXpress service.
+an invoice on the BILL service.
 
-The "Email InvoiceXpress" button requests the InvoiceXpress service to send an email with a
+The "Email BILL" button requests the BILL service to send an email with a
 copy of the legal document.
 
-The Invoice form shows an "InvoiceXpress" tab containing details for
-the corresponding InvoiceXpress document.
+The Invoice form shows an "BILL" tab containing details for
+the corresponding BILL document.
 
 Bug Tracker
 ===========

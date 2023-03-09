@@ -14,9 +14,9 @@ from odoo import _, exceptions, models
 _logger = logging.getLogger(__name__)
 
 
-class InvoiceXpress(models.AbstractModel):
+class BILL(models.AbstractModel):
     _name = "account.invoicexpress"
-    _description = "InvoiceXpress connector"
+    _description = "BILL connector"
 
     def _get_config(self, company):
         account_name = company.invoicexpress_account_name

@@ -15,7 +15,7 @@ def mock_response(json, status_code=200):
 
 
 @common.tagged("-at_install", "post_install")
-class TestInvoiceXpress(common.TransactionCase):
+class TestBILL(common.TransactionCase):
     def setUp(self):
         super().setUp()
 

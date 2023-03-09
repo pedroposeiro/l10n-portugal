@@ -98,18 +98,18 @@ msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,help:l10n_pt_account_invoicexpress.field_res_company__has_invoicexpress
-msgid "Easy to use indicator if InvoiceXpress is enabled and can be used"
+msgid "Easy to use indicator if BILL is enabled and can be used"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
 #: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.view_account_move_form
-msgid "Email InvoiceXpress"
+msgid "Email BILL"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
-msgid "Email sent by InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
+msgid "Email sent by BILL:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -157,7 +157,7 @@ msgstr ""
 #. module: l10n_pt_account_invoicexpress
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
-msgid "Invoice %s is not registered in InvoiceXpress yet."
+msgid "Invoice %s is not registered in BILL yet."
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -168,45 +168,45 @@ msgstr ""
 #. module: l10n_pt_account_invoicexpress
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
-msgid "Invoice is missing the InvoiceXpress document type!"
+msgid "Invoice is missing the BILL document type!"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
 #: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_config_settings_view_form
 #: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.view_account_move_form
-msgid "InvoiceXpress"
+msgid "BILL"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_company__invoicexpress_api_key
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_config_settings__invoicexpress_api_key
 #: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_config_settings_view_form
-msgid "InvoiceXpress API Key"
+msgid "BILL API Key"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_company__invoicexpress_account_name
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_config_settings__invoicexpress_account_name
 #: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_config_settings_view_form
-msgid "InvoiceXpress Account Name"
+msgid "BILL Account Name"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
 #: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_compnay_form_invoicexpress
-msgid "InvoiceXpress Configuration"
+msgid "BILL Configuration"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_bank_statement_line__invoicexpress_permalink
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move__invoicexpress_permalink
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_payment__invoicexpress_permalink
-msgid "InvoiceXpress Doc Link"
+msgid "BILL Doc Link"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_company__invoicexpress_template_id
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_config_settings__invoicexpress_template_id
-msgid "InvoiceXpress Email Template"
+msgid "BILL Email Template"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -216,24 +216,24 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_tax__invoicexpress_id
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_partner__invoicexpress_id
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_users__invoicexpress_id
-msgid "InvoiceXpress ID"
+msgid "BILL ID"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
 #: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_config_settings_view_form
-msgid "InvoiceXpress Invoice Email Template"
+msgid "BILL Invoice Email Template"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model,name:l10n_pt_account_invoicexpress.model_account_invoicexpress
-msgid "InvoiceXpress connector"
+msgid "BILL connector"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
 msgid ""
-"InvoiceXpress record has been created for this invoice:<ul><li>InvoiceXpress"
+"BILL record has been created for this invoice:<ul><li>BILL"
 " Id: {inv_xpress_id}</li><li>{inv_xpress_link}</li></ul>"
 msgstr ""
 
@@ -275,7 +275,7 @@ msgstr ""
 #. module: l10n_pt_account_invoicexpress
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
-msgid "Journal %s is missing the InvoiceXpress document type configuration!"
+msgid "Journal %s is missing the BILL document type configuration!"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -316,7 +316,7 @@ msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields.selection,name:l10n_pt_account_invoicexpress.selection__account_journal__invoicexpress_doc_type__none
-msgid "No InvoiceXpress document"
+msgid "No BILL document"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -335,8 +335,8 @@ msgstr ""
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
 msgid ""
-"Please configure the InvoiceXpress email template at Settings > General "
-"Setting, InvoiceXpress section"
+"Please configure the BILL email template at Settings > General "
+"Setting, BILL section"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -353,7 +353,7 @@ msgstr ""
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,help:l10n_pt_account_invoicexpress.field_account_journal__invoicexpress_doc_type
 msgid ""
-"Select the type of legal invoice document to be created by InvoiceXpress."
+"Select the type of legal invoice document to be created by BILL."
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -361,8 +361,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_pt_account_invoicexpress.field_account_move__invoicexpress_doc_type
 #: model:ir.model.fields,help:l10n_pt_account_invoicexpress.field_account_payment__invoicexpress_doc_type
 msgid ""
-"Select the type of legal invoice document to be created by InvoiceXpress. If"
-" unset, InvoiceXpress will not be used."
+"Select the type of legal invoice document to be created by BILL. If"
+" unset, BILL will not be used."
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -384,14 +384,14 @@ msgstr ""
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
 msgid ""
-"Something went wrong: the InvoiceXpress response is missing a sequence "
+"Something went wrong: the BILL response is missing a sequence "
 "number."
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
-msgid "Something went wrong: the InvoiceXpress response looks empty."
+msgid "Something went wrong: the BILL response looks empty."
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -414,7 +414,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_pt_account_invoicexpress.field_res_config_settings__invoicexpress_template_id
 msgid ""
 "Used to generate the To, Cc, Subject and Body for the email sent by the "
-"InvoiceXpress service"
+"BILL service"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress

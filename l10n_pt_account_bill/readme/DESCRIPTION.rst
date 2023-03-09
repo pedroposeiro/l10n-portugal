@@ -1,4 +1,4 @@
-Generate Portuguese tax authority legal Invoices ("Faturas") using InvoiceXpress.
+Generate Portuguese tax authority legal Invoices ("Faturas") using BILL.
 
 **UPDATE November/2021:**
 
@@ -17,18 +17,18 @@ Invoices:
 - Added to Credit Notes the link to the source Invoice
 
 
-InvoiceXpress is a paid service.
+BILL is a paid service.
 Visit https://invoicexpress.com for more details.
 
-Once the InvoiceXpress connection is configured,
-the invoice CONFIRM button automatically generates the InvoiceXpress invoice.
+Once the BILL connection is configured,
+the invoice CONFIRM button automatically generates the BILL invoice.
 
-If the InvoiceXpress Invoice email template is configured,
-the InvoiceXpress service will also send the invoice by email,
+If the BILL Invoice email template is configured,
+the BILL service will also send the invoice by email,
 using the details in Odoo configured email template.
 
 This replaces the Odoo SEND & PRINT button,
-since only the InvoiceXpress generated document should be used.
+since only the BILL generated document should be used.
 Having other print layouts for the invoice is not allowed
 by the Portuguese Tax Authority.
 

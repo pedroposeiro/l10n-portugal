@@ -12,7 +12,7 @@ class AccountMove(models.Model):
     @api.depends("restrict_mode_hash_table", "state")
     def _compute_show_reset_to_draft_button(self):
         super()._compute_show_reset_to_draft_button()
-        # InvoiceXpress generated invoices can't be set to Draft
+        # BILL generated invoices can't be set to Draft
         self.filtered("invoicexpress_id").write({"show_reset_to_draft_button": False})
 
     @api.depends("move_type", "journal_id.use_invoicexpress")
@@ -50,9 +50,9 @@ class AccountMove(models.Model):
     journal_type = fields.Selection(
         related="journal_id.type", string="Journal Type", readonly=True
     )
-    invoicexpress_id = fields.Char("InvoiceXpress ID", copy=False, readonly=True)
+    invoicexpress_id = fields.Char("BILL ID", copy=False, readonly=True)
     invoicexpress_permalink = fields.Char(
-        "InvoiceXpress Doc Link", copy=False, readonly=True
+        "BILL Doc Link", copy=False, readonly=True
     )
     can_invoicexpress = fields.Boolean(compute="_compute_can_invoicexpress")
     can_invoicexpress_email = fields.Boolean(compute="_compute_can_invoicexpress_email")
@@ -72,8 +72,8 @@ class AccountMove(models.Model):
         readonly=False,
         copy=False,
         help="Select the type of legal invoice document"
-        " to be created by InvoiceXpress."
-        " If unset, InvoiceXpress will not be used.",
+        " to be created by BILL."
+        " If unset, BILL will not be used.",
     )
 
     @api.constrains("journal_id", "company_id")
@@ -88,7 +88,7 @@ class AccountMove(models.Model):
             if not journal_doctype and has_invoicexpress:
                 raise exceptions.UserError(
                     _(
-                        "Journal %s is missing the InvoiceXpress"
+                        "Journal %s is missing the BILL"
                         " document type configuration!"
                     )
                     % invoice.journal_id.display_name
@@ -111,7 +111,7 @@ class AccountMove(models.Model):
         lines = self.invoice_line_ids.filtered(
             lambda l: l.display_type not in ("line_section", "line_note")
         )
-        # Ensure Taxes are created on InvoiceXpress
+        # Ensure Taxes are created on BILL
         lines.mapped("tax_ids").action_invoicexpress_tax_create()
         items = []
         for line in lines:
@@ -182,32 +182,32 @@ class AccountMove(models.Model):
             "<a class='btn btn-info mr-2' target='new' href={}>{}</a>"
         ).format(self.invoicexpress_permalink, inv_xpress_link_name)
         msg = _(
-            "InvoiceXpress record has been created for this invoice:"
-            "<ul><li>InvoiceXpress Id: {inv_xpress_id}</li>"
+            "BILL record has been created for this invoice:"
+            "<ul><li>BILL Id: {inv_xpress_id}</li>"
             "<li>{inv_xpress_link}</li></ul>"
         ).format(inv_xpress_id=self.invoicexpress_id, inv_xpress_link=inv_xpress_link)
         self.message_post(body=msg)
 
     def action_create_invoicexpress_invoice(self):
-        InvoiceXpress = self.env["account.invoicexpress"]
+        BILL = self.env["account.invoicexpress"]
         for invoice in self.filtered("can_invoicexpress"):
             doctype = invoice.invoicexpress_doc_type
             if not doctype:
                 raise exceptions.UserError(
-                    _("Invoice is missing the InvoiceXpress document type!")
+                    _("Invoice is missing the BILL document type!")
                 )
             payload = invoice._prepare_invoicexpress_vals()
-            response = InvoiceXpress.call(
+            response = BILL.call(
                 invoice.company_id, "{}s.json".format(doctype), "POST", payload=payload
             ).json()
             values = response.get(doctype)
             if not values:
                 raise exceptions.UserError(
-                    _("Something went wrong: the InvoiceXpress response looks empty.")
+                    _("Something went wrong: the BILL response looks empty.")
                 )
             invoice.invoicexpress_id = values.get("id")
             invoice.invoicexpress_permalink = values.get("permalink")
-            response1 = InvoiceXpress.call(
+            response1 = BILL.call(
                 invoice.company_id,
                 "{}s/{}/change-state.json".format(doctype, invoice.invoicexpress_id),
                 "PUT",
@@ -219,7 +219,7 @@ class AccountMove(models.Model):
             if not seqnum:
                 raise exceptions.UserError(
                     _(
-                        "Something went wrong: the InvoiceXpress response"
+                        "Something went wrong: the BILL response"
                         " is missing a sequence number."
                     )
                 )
@@ -239,8 +239,8 @@ class AccountMove(models.Model):
         if not template_id and not ignore_no_config:
             raise exceptions.UserError(
                 _(
-                    "Please configure the InvoiceXpress email template"
-                    " at Settings > General Setting, InvoiceXpress section"
+                    "Please configure the BILL email template"
+                    " at Settings > General Setting, BILL section"
                 )
             )
         if not values.get("email_to") and not ignore_no_config:
@@ -258,11 +258,11 @@ class AccountMove(models.Model):
         return email_data
 
     def action_send_invoicexpress_email(self, ignore_no_config=False):
-        InvoiceXpress = self.env["account.invoicexpress"]
+        BILL = self.env["account.invoicexpress"]
         for invoice in self.filtered("can_invoicexpress_email"):
             if not invoice.invoicexpress_id:
                 raise exceptions.UserError(
-                    _("Invoice %s is not registered in InvoiceXpress yet.")
+                    _("Invoice %s is not registered in BILL yet.")
                     % invoice.name
                 )
             doctype = invoice.invoicexpress_doc_type
@@ -271,9 +271,9 @@ class AccountMove(models.Model):
             )
             payload = invoice._prepare_invoicexpress_email_vals(ignore_no_config)
             if payload:
-                InvoiceXpress.call(invoice.company_id, endpoint, "PUT", payload=payload)
+                BILL.call(invoice.company_id, endpoint, "PUT", payload=payload)
                 msg = _(
-                    "Email sent by InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
+                    "Email sent by BILL:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
                 ).format(
                     payload["message"]["client"]["email"],
                     payload["message"]["cc"] or _("None"),

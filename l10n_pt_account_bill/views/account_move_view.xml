@@ -21,7 +21,7 @@
             <xpath expr="//notebook//page[@name='other_info']" position="after">
                 <page
                     name="invoicexpress"
-                    string="InvoiceXpress"
+                    string="BILL"
                     attrs="{'invisible': [('invoicexpress_id', '=', False)]}"
                 >
                     <group>
@@ -39,7 +39,7 @@
                 <!-- This can be uncommented to aid debugging
                 <button
                     name="action_create_invoicexpress_invoice"
-                    string="Create InvoiceXpress"
+                    string="Create BILL"
                     type="object"
                     attrs="{'invisible': ['|', ('can_invoicexpress', '=', False), ('invoicexpress_id', '!=', False)]}"
                     groups="base.group_no_one"
@@ -47,7 +47,7 @@
                 -->
                 <button
                     name="action_send_invoicexpress_email"
-                    string="Email InvoiceXpress"
+                    string="Email BILL"
                     type="object"
                     attrs="{'invisible': ['|', ('can_invoicexpress_email', '=', False), ('invoicexpress_id', '=', False)]}"
                 />

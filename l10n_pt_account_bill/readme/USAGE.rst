@@ -1,8 +1,8 @@
 On an Invoice, the CONFIRM button automatically generates
-an invoice on the InvoiceXpress service.
+an invoice on the BILL service.
 
-The "Email InvoiceXpress" button requests the InvoiceXpress service to send an email with a
+The "Email BILL" button requests the BILL service to send an email with a
 copy of the legal document.
 
-The Invoice form shows an "InvoiceXpress" tab containing details for
-the corresponding InvoiceXpress document.
+The Invoice form shows an "BILL" tab containing details for
+the corresponding BILL document.

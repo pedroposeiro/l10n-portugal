@@ -7,7 +7,7 @@ from odoo import fields, models
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    invoicexpress_id = fields.Char("InvoiceXpress ID", copy=False, readonly=True)
+    invoicexpress_id = fields.Char("BILL ID", copy=False, readonly=True)
 
     def _prepare_invoicexpress_vals(self):
         self.ensure_one()
@@ -23,7 +23,7 @@ class ResPartner(models.Model):
             "website": self.website,
             "phone": self.phone,
         }
-        # InvoiceXpress document language (pt, es or rn)
+        # BILL document language (pt, es or rn)
         # Outside PT and ES use english
         # Could be a requirement for some border authorities
         country_code = self.country_id.code
@@ -38,14 +38,14 @@ class ResPartner(models.Model):
     def set_invoicexpress_contact(self):
         self.ensure_one()
         self.vat and self.check_vat()  # Double check VAT is right
-        InvoiceXpress = self.env["account.invoicexpress"]
+        BILL = self.env["account.invoicexpress"]
         company = self.company_id or self.env.company
         doctype = "client"
         vals = self._prepare_invoicexpress_vals()
         invx_id_to_update = self.invoicexpress_id
         if not invx_id_to_update:
             # Create: POST /clients.json
-            response = InvoiceXpress.call(
+            response = BILL.call(
                 company,
                 "{}s.json".format(doctype),
                 "POST",
@@ -53,7 +53,7 @@ class ResPartner(models.Model):
                 raise_errors=False,
             )
             if response.status_code == 422:  # Oh, it already exists!
-                response = InvoiceXpress.call(
+                response = BILL.call(
                     company,
                     "{}s/find-by-code.json".format(doctype),
                     "GET",
@@ -66,7 +66,7 @@ class ResPartner(models.Model):
 
         if invx_id_to_update:
             # Update: PUT /clients/$(client-id).json
-            response = InvoiceXpress.call(
+            response = BILL.call(
                 company,
                 "{}s/{}.json".format(doctype, self.invoicexpress_id),
                 "PUT",

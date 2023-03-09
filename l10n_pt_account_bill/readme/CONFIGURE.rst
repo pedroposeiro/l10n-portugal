@@ -1,14 +1,14 @@
 To configure:
 
 - Navigate to Settings/General Settings.
-- In the "General Settings" configuration section, locate the "InvoiceXpress" subsection:
+- In the "General Settings" configuration section, locate the "BILL" subsection:
   There you can set:
 
-  - InvoiceXpress Account Name
-  - InvoiceXpress API Key
-  - InvoiceXpress Invoice Email Template
+  - BILL Account Name
+  - BILL API Key
+  - BILL Invoice Email Template
 
-The email template is used to prepare the details for the email the InvoiceXpress
+The email template is used to prepare the details for the email the BILL
 service sends with the invoice:
 
 - "To" email address
@@ -19,12 +19,12 @@ service sends with the invoice:
 Translations are supported, and the customer language is used to render
 the email details.
 
-The InvoiceXpress configuration is per company,
+The BILL configuration is per company,
 and can also be modified directly on the Company form,
 if the Developer Mode is enabled.
 
 On the Journal form, for sales journals, a flag is available to allow disabling
-the InvoiceXpress integration. This can be useful for a journal that was used temporarily
+the BILL integration. This can be useful for a journal that was used temporarily
 to import invoice history, for reporting purposes, ond was then disabled,
 or to allow that journal to use a different legal invoicing system.
 

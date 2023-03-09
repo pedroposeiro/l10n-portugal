@@ -21,10 +21,10 @@ class AccountJournal(models.Model):
             ("invoice", "Invoice"),
             ("invoice_receipt", "Invoices Receipt"),
             ("simplified_invoice", "Simplified Invoice"),
-            ("none", "No InvoiceXpress document"),
+            ("none", "No BILL document"),
         ],
         help="Select the type of legal invoice document"
-        " to be created by InvoiceXpress.",
+        " to be created by BILL.",
     )
     use_invoicexpress = fields.Boolean(
         compute="_compute_use_invoicexpress",

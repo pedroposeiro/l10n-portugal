@@ -1,6 +1,6 @@
 <odoo>
     <record model="ir.ui.view" id="view_res_country_form">
-        <field name="name">Country: add InvoiceXpress name</field>
+        <field name="name">Country: add BILL name</field>
         <field name="model">res.country</field>
         <field name="inherit_id" ref="base.view_country_form" />
         <field name="arch" type="xml">

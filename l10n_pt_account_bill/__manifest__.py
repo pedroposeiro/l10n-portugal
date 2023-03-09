@@ -2,8 +2,8 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Portugal InvoiceXpress Integration",
-    "summary": "Portuguese certified invoices using InvoiceXpress",
+    "name": "Portugal BILL Integration",
+    "summary": "Portuguese certified invoices using BILL",
     "version": "14.0.4.2.0",
     "author": "Open Source Integrators, Odoo Community Association (OCA)",
     "license": "AGPL-3",

@@ -1,7 +1,7 @@
-Odoo country list was mapped to the InvoiceXpress names as documented at
+Odoo country list was mapped to the BILL names as documented at
 https://invoicexpress.com/api-v2/documentation/appendix
 
-These InvoiceXpress country names found no macth in Odoo:
+These BILL country names found no macth in Odoo:
 
 Burma
 Canton and Enderbury Islands
@@ -21,7 +21,7 @@ Wake Island
 Western Samoa
 Zaïre
 
-These Odoo countries found no match in the InvoiceXpress list:
+These Odoo countries found no match in the BILL list:
 
 id,name
 base.aq,Antarctica
