@@ -2,18 +2,18 @@
 <odoo>
 
     <record model="ir.ui.view" id="view_account_journal_form">
-        <field name="name">Journal Form: add Invoicexpress</field>
+        <field name="name">Journal Form: add Bill</field>
         <field name="model">account.journal</field>
         <field name="inherit_id" ref="account.view_account_journal_form" />
         <field name="arch" type="xml">
 
             <page name="advanced_settings" position="inside">
                 <group
-                    string="Invoicexpress"
+                    string="Bill"
                     attrs="{'invisible': [('type', '!=', 'sale')]}"
                 >
-                    <field name="invoicexpress_doc_type" />
-                    <field name="use_invoicexpress" groupe="base.group_no_one" />
+                    <field name="bill_doc_type" />
+                    <field name="use_bill" groupe="base.group_no_one" />
                 </group>
             </page>
 

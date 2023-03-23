@@ -7,6 +7,6 @@ from odoo import fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
-    invoicexpress_delivery_template_id = fields.Many2one(
-        related="company_id.invoicexpress_delivery_template_id", readonly=False
+    bill_delivery_template_id = fields.Many2one(
+        related="company_id.bill_delivery_template_id", readonly=False
     )

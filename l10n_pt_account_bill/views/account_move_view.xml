@@ -8,48 +8,47 @@
         <field name="arch" type="xml">
 
             <div name="journal_div" position="after">
-                <field name="can_invoicexpress" invisible="1" />
-                <field name="can_invoicexpress_email" invisible="1" />
+                <field name="can_bill" invisible="1" />
+                <field name="can_bill_email" invisible="1" />
                 <field
-                    name="invoicexpress_doc_type"
+                    name="bill_doc_type"
                     attrs="{
                         'readonly': [('posted_before', '=', True)],
-                        'invisible': [('can_invoicexpress', '=', False)]
+                        'invisible': [('can_bill', '=', False)]
                     }"
                 />
             </div>
             <xpath expr="//notebook//page[@name='other_info']" position="after">
                 <page
-                    name="invoicexpress"
+                    name="bill"
                     string="BILL"
-                    attrs="{'invisible': [('invoicexpress_id', '=', False)]}"
+                    attrs="{'invisible': [('bill_id', '=', False)]}"
                 >
                     <group>
-                        <field name="invoicexpress_id" />
-                        <field name="invoicexpress_permalink" widget="url" />
+                        <field name="bill_id" />
+                        <field name="bill_permalink" widget="url" />
                     </group>
                 </page>
             </xpath>
             <button name="action_invoice_sent" position="attributes">
                 <attribute
                     name="attrs"
-                >{'invisible': [('can_invoicexpress', '=', True)]}</attribute>
+                >{'invisible': [('can_bill', '=', True)]}</attribute>
             </button>
             <button name="preview_invoice" position="before">
-                <!-- This can be uncommented to aid debugging
-                <button
-                    name="action_create_invoicexpress_invoice"
+                <!--button
+                    name="action_create_bill_invoice"
                     string="Create BILL"
                     type="object"
-                    attrs="{'invisible': ['|', ('can_invoicexpress', '=', False), ('invoicexpress_id', '!=', False)]}"
+                    attrs="{'invisible': ['|', ('can_bill', '=', False), ('bill_id', '!=', False)]}"
                     groups="base.group_no_one"
-                />
-                -->
+                /-->
+                
                 <button
-                    name="action_send_invoicexpress_email"
-                    string="Email BILL"
+                    name="action_send_bill_email"
+                    string="Email BILL2"
                     type="object"
-                    attrs="{'invisible': ['|', ('can_invoicexpress_email', '=', False), ('invoicexpress_id', '=', False)]}"
+                    attrs="{'invisible': ['|', ('can_bill_email', '=', False), ('bill_id', '=', False)]}"
                 />
             </button>
 

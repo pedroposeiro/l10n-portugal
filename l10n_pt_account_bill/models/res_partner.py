@@ -7,70 +7,66 @@ from odoo import fields, models
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    invoicexpress_id = fields.Char("BILL ID", copy=False, readonly=True)
+    bill_id = fields.Char("BILL ID", copy=False, readonly=True)
 
-    def _prepare_invoicexpress_vals(self):
+    def _prepare_bill_vals(self):
         self.ensure_one()
         vals = {
-            "name": self.name,
-            "code": "ODOO-{}".format(self.ref or self.id),
+            "nome": self.name,
+            "pais": self.country_id.code,
+            "codigo": "ODOO-{}".format(self.ref or self.id),
+            "nif": self.vat,
             "email": self.email,
-            "address": ", ".join(filter(None, [self.street, self.street2])),
-            "city": self.city,
-            "postal_code": self.zip,
-            "country": self.country_id.invoicexpress_name,
-            "fiscal_id": self.vat,
-            "website": self.website,
-            "phone": self.phone,
+            "morada": ", ".join(filter(None, [self.street, self.street2])),
+            "codigo_postal": self.zip,
+            "cidade": self.city,
+            "telefone_contato": self.phone, 
         }
-        # BILL document language (pt, es or rn)
-        # Outside PT and ES use english
-        # Could be a requirement for some border authorities
-        country_code = self.country_id.code
-        if country_code == "ES":
-            vals["language"] = "es"
-        elif country_code == "PT":
-            vals["language"] = "pt"
-        elif country_code:
-            vals["language"] = "en"
         return {k: v for k, v in vals.items() if v}
 
-    def set_invoicexpress_contact(self):
+    def set_bill_contact(self):
         self.ensure_one()
         self.vat and self.check_vat()  # Double check VAT is right
-        BILL = self.env["account.invoicexpress"]
+        BILL = self.env["account.bill"]
         company = self.company_id or self.env.company
-        doctype = "client"
-        vals = self._prepare_invoicexpress_vals()
-        invx_id_to_update = self.invoicexpress_id
+        doctype = "contatos"
+        vals = self._prepare_bill_vals()
+        invx_id_to_update = self.bill_id
         if not invx_id_to_update:
             # Create: POST /clients.json
             response = BILL.call(
                 company,
-                "{}s.json".format(doctype),
+                doctype,
                 "POST",
-                payload={"client": vals},
+                payload=vals,
                 raise_errors=False,
             )
-            if response.status_code == 422:  # Oh, it already exists!
+            if response.text == '{"error":["231"]}':  # Oh, it already exists!
                 response = BILL.call(
                     company,
-                    "{}s/find-by-code.json".format(doctype),
+                    doctype,
                     "GET",
-                    params={"client_code": vals["code"]},
+                    payload={"pesquisa[codigo]": vals["codigo"]},
                 )
-                values = response.json().get(doctype)
+                values = response.json()['data'][0]
                 invx_id_to_update = values.get("id")  # Update is needed!
-            values = response.json().get(doctype, {})
-            self.invoicexpress_id = values.get("id")
+            else:
+                values = response.json()
+            
+            self.bill_id = values.get("id")
 
         if invx_id_to_update:
             # Update: PUT /clients/$(client-id).json
             response = BILL.call(
                 company,
-                "{}s/{}.json".format(doctype, self.invoicexpress_id),
-                "PUT",
-                payload={"client": vals},
+                "{}/{}".format(doctype, self.bill_id),
+                "PATCH",
+                payload=vals,
                 raise_errors=True,
             )
-        return {"name": vals["name"], "code": vals["code"]}
+        
+        val_final={} 
+        for key,val in vals.items():
+            val_final['contato[{}]'.format(key)] = val
+        
+        return val_final#{"nome": vals["nome"], "codigo": vals["codigo"]}

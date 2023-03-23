@@ -7,28 +7,28 @@ from odoo import api, fields, models
 class Company(models.Model):
     _inherit = "res.company"
 
-    @api.depends("country_code", "invoicexpress_account_name", "invoicexpress_api_key")
-    def _compute_has_invoicexpress(self):
+    @api.depends("country_code", "bill_account_name", "bill_api_token")
+    def _compute_has_bill(self):
         for company in self:
-            company.has_invoicexpress = (
+            company.has_bill = (
                 company.country_code == "PT"
-                and company.invoicexpress_account_name
-                and company.invoicexpress_api_key
+                and company.bill_account_name
+                and company.bill_api_token
             )
 
-    invoicexpress_account_name = fields.Char(string="BILL Account Name")
-    invoicexpress_api_key = fields.Char(string="BILL API Key")
-    has_invoicexpress = fields.Boolean(
-        compute="_compute_has_invoicexpress",
+    bill_account_name = fields.Char(string="BILL Account Name")
+    bill_api_token = fields.Char(string="BILL API Key")
+    has_bill = fields.Boolean(
+        compute="_compute_has_bill",
         help="Easy to use indicator if BILL is enabled and can be used",
     )
 
-    invoicexpress_template_id = fields.Many2one(
+    bill_template_id = fields.Many2one(
         "mail.template",
         "BILL Email Template",
         domain="[('model', '=', 'account.move')]",
         default=lambda self: self.env.ref(
-            "l10n_pt_account_invoicexpress.email_template_invoice", False
+            "l10n_pt_account_bill.email_template_invoice", False
         ),
         help="Used to generate the To, Cc, Subject and Body"
         " for the email sent by the BILL service",

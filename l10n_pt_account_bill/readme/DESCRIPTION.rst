@@ -18,7 +18,7 @@ Invoices:
 
 
 BILL is a paid service.
-Visit https://invoicexpress.com for more details.
+Visit https://bill.com for more details.
 
 Once the BILL connection is configured,
 the invoice CONFIRM button automatically generates the BILL invoice.
@@ -33,4 +33,4 @@ Having other print layouts for the invoice is not allowed
 by the Portuguese Tax Authority.
 
 Legal transport documents ("Guias de Transporte" e "Guias de Remessa) are also supported
-through the extension module "l10n_pt_stock_invoicexpress".
+through the extension module "l10n_pt_stock_bill".

@@ -7,4 +7,4 @@ from odoo import fields, models
 class Country(models.Model):
     _inherit = "res.country"
 
-    invoicexpress_name = fields.Char()
+    bill_name = fields.Char()

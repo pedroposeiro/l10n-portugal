@@ -7,12 +7,12 @@ from odoo import models
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    def _prepare_invoicexpress_shipping_vals(self):
+    def _prepare_bill_shipping_vals(self):
         self.ensure_one()
         return {
             "email": self.email or "",
             "detail": ", ".join(filter(None, [self.street, self.street2])) or "",
             "city": self.city or "",
             "postal_code": self.zip or "",
-            "country": self.country_id.invoicexpress_name or "",
+            "country": self.country_id.bill_name or "",
         }

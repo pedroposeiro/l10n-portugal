@@ -7,47 +7,46 @@
         <field name="inherit_id" ref="stock.view_picking_form" />
         <field name="arch" type="xml">
             <field name="origin" position="after">
-                <field name="can_invoicexpress" invisible="1" />
-                <field name="can_invoicexpress_email" invisible="1" />
-                <field name="invoicexpress_doc_type" />
+                <field name="can_bill" invisible="1" />
+                <field name="can_bill_email" invisible="1" />
+                <field name="bill_doc_type" />
                 <field
-                    name="invoicexpress_send_email"
-                    attrs="{'invisible': [('can_invoicexpress_email', '=', False)]}"
+                    name="bill_send_email"
+                    attrs="{'invisible': [('can_bill_email', '=', False)]}"
                 />
                 <field
                     name="license_plate"
-                    attrs="{'invisible': [('can_invoicexpress', '=', False)]}"
+                    attrs="{'invisible': [('can_bill', '=', False)]}"
                 />
             </field>
             <xpath expr="//notebook//page[@name='note']" position="after">
                 <page
-                    name="invoicexpress"
-                    string="InvoiceXpress"
-                    attrs="{'invisible': [('invoicexpress_id', '=', False)]}"
-                    groups="base.group_no_one"
+                    name="bill"
+                    string="Bill"
+                    attrs="{'invisible': [('bill_id', '=', False)]}"
                 >
                     <group>
-                        <field name="invoicexpress_id" />
-                        <field name="invoicexpress_permalink" widget="url" />
+                        <field name="bill_id" />
+                        <field name="bill_permalink" widget="url" />
                     </group>
                 </page>
             </xpath>
             <xpath expr="//button[@name='do_print_picking']" position="before">
                 <!-- This can be uncommented to aid debugging
                 <button
-                    name="action_create_invoicexpress_delivery"
-                    string="Create InvoiceXpress"
+                    name="action_create_bill_delivery"
+                    string="Create Bill"
                     type="object"
-                    attrs="{'invisible': ['|', '|', ('invoicexpress_id', '!=', False),
-                    ('state', 'not in', ('assigned','done')),('can_invoicexpress', '=', False)]}"
+                    attrs="{'invisible': ['|', '|', ('bill_id', '!=', False),
+                    ('state', 'not in', ('assigned','done')),('can_bill', '=', False)]}"
                     groups="base.group_no_one"
                 />
                 -->
                 <button
-                    name="action_send_invoicexpress_delivery"
-                    string="InvoiceXpress Email"
+                    name="action_send_bill_delivery"
+                    string="Bill Email"
                     type="object"
-                    attrs="{'invisible': ['|', ('can_invoicexpress_email', '=', False), ('invoicexpress_id', '=', False)]}"
+                    attrs="{'invisible': ['|', ('can_bill_email', '=', False), ('bill_id', '=', False)]}"
                 />
             </xpath>
         </field>

@@ -1,5 +1,5 @@
 Odoo country list was mapped to the BILL names as documented at
-https://invoicexpress.com/api-v2/documentation/appendix
+https://bill.com/api-v2/documentation/appendix
 
 These BILL country names found no macth in Odoo:
 

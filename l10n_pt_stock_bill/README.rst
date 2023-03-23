@@ -1,5 +1,5 @@
 ================================================
-Portugal InvoiceXpress Legal Transport Documents
+Portugal Bill Legal Transport Documents
 ================================================
 
 .. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,10 +14,10 @@ Portugal InvoiceXpress Legal Transport Documents
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--portugal-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-portugal/tree/14.0/l10n_pt_stock_invoicexpress
+    :target: https://github.com/OCA/l10n-portugal/tree/14.0/l10n_pt_stock_bill
     :alt: OCA/l10n-portugal
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-portugal-14-0/l10n-portugal-14-0-l10n_pt_stock_invoicexpress
+    :target: https://translation.odoo-community.org/projects/l10n-portugal-14-0/l10n-portugal-14-0-l10n_pt_stock_bill
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runbot-Try%20me-875A7B.png
     :target: https://runbot.odoo-community.org/runbot/171/14.0
@@ -25,13 +25,13 @@ Portugal InvoiceXpress Legal Transport Documents
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-Generate Portuguese tax authority legal transport documents ("Guias de Transporte") using InvoiceXpress.
+Generate Portuguese tax authority legal transport documents ("Guias de Transporte") using Bill.
 
-The InvoiceXpress document is automatically generated when an ougoing Transfer or
+The Bill document is automatically generated when an ougoing Transfer or
 Delivery Order is validated.
 
-This feature depends on the InvoiceXpress Invoice generation feature.
-See https://github.com/OCA/l10n-portugal/blob/14.0/l10n_pt_account_invoicexpress/README.rst
+This feature depends on the Bill Invoice generation feature.
+See https://github.com/OCA/l10n-portugal/blob/14.0/l10n_pt_account_bill/README.rst
 for more details.
 
 
@@ -57,22 +57,22 @@ Deliveries:
 Configuration
 =============
 
-This feature depends on the InvoiceXpress Incoice generation feature.
-See https://github.com/OCA/l10n-portugal/blob/14.0/l10n_pt_account_invoicexpress/README.rst
+This feature depends on the Bill Incoice generation feature.
+See https://github.com/OCA/l10n-portugal/blob/14.0/l10n_pt_account_bill/README.rst
 for configuration details.
 
-An additional "InvoiceXpress Delivery Email" option is available,
+An additional "Bill Delivery Email" option is available,
 to configure the email template preparing the details for the emailto be sent by the
-InvoiceXpress service.
+Bill service.
 
 Usage
 =====
 
 On Delivery Orders and Internal Transfer documents,
 validating the transfer automatically generates
-an InvoiceXpress "Guia de Transporte" for the Done quantities.
+an Bill "Guia de Transporte" for the Done quantities.
 
-The "Email InvoiceXpress" requests the InvoiceXpress service
+The "Email Bill" requests the Bill service
 to send an email with a copy of the legal document.
 The content of this email can be configure in Odoo.
 
@@ -82,7 +82,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-portugal/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-portugal/issues/new?body=module:%20l10n_pt_stock_invoicexpress%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-portugal/issues/new?body=module:%20l10n_pt_stock_bill%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -120,6 +120,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-dreispt| 
 
-This module is part of the `OCA/l10n-portugal <https://github.com/OCA/l10n-portugal/tree/14.0/l10n_pt_stock_invoicexpress>`_ project on GitHub.
+This module is part of the `OCA/l10n-portugal <https://github.com/OCA/l10n-portugal/tree/14.0/l10n_pt_stock_bill>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

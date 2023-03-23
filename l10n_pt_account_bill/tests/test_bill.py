@@ -22,8 +22,8 @@ class TestBILL(common.TransactionCase):
         self.company = self.env.company
         self.company.write(
             {
-                "invoicexpress_account_name": "ACCOUNT",
-                "invoicexpress_api_key": "APIKEY",
+                "bill_account_name": "ACCOUNT",
+                "bill_api_token": "APIKEY",
                 "country_id": self.env.ref("base.pt").id,
             }
         )
@@ -52,19 +52,19 @@ class TestBILL(common.TransactionCase):
             }
         )
 
-    def test_res_partner__prepare_invoicexpress_vals(self):
+    def test_res_partner__prepare_bill_vals(self):
         partner_PT = self.partnerA.copy({"country_id": self.env.ref("base.pt").id})
-        partner_PT_vals = partner_PT._prepare_invoicexpress_vals()
+        partner_PT_vals = partner_PT._prepare_bill_vals()
         self.assertEqual(
             partner_PT_vals["language"], "pt", "Address in Portugal uses pt language"
         )
         partner_ES = self.partnerA.copy({"country_id": self.env.ref("base.es").id})
-        partner_ES_vals = partner_ES._prepare_invoicexpress_vals()
+        partner_ES_vals = partner_ES._prepare_bill_vals()
         self.assertEqual(
             partner_ES_vals["language"], "es", "Address in Spain uses es language"
         )
         partner_FR = self.partnerA.copy({"country_id": self.env.ref("base.fr").id})
-        partner_FR_vals = partner_FR._prepare_invoicexpress_vals()
+        partner_FR_vals = partner_FR._prepare_bill_vals()
         self.assertEqual(
             partner_FR_vals["language"],
             "en",
@@ -72,12 +72,12 @@ class TestBILL(common.TransactionCase):
         )
 
     def test_010_get_config_and_base_url(self):
-        API = self.env["account.invoicexpress"]
+        API = self.env["account.bill"]
         url = API._build_url(API._get_config(self.company), "dummy.json")
-        self.assertEqual(url, "https://ACCOUNT.app.invoicexpress.com/dummy.json")
+        self.assertEqual(url, "https://ACCOUNT.app.bill.com/dummy.json")
 
     @patch.object(requests, "request")
-    def test_100_create_invoicexpress_tax(self, mock_request):
+    def test_100_create_bill_tax(self, mock_request):
         mock_request.return_value = mock_response(
             {
                 "tax": {
@@ -97,11 +97,11 @@ class TestBILL(common.TransactionCase):
                 "amount": 23.0,
             }
         )
-        taxA.action_invoicexpress_tax_create()
-        self.assertEqual(taxA.invoicexpress_id, "12345")
+        taxA.action_bill_tax_create()
+        self.assertEqual(taxA.bill_id, "12345")
 
     @patch.object(requests, "request")
-    def test_101_create_invoicexpress_invoice(self, mock_request):
+    def test_101_create_bill_invoice(self, mock_request):
         mock_request.return_value = mock_response(
             {
                 "invoice_receipt": {
@@ -111,7 +111,7 @@ class TestBILL(common.TransactionCase):
             }
         )
         # Ensure Journal is configured
-        self.sale_journals.write({"invoicexpress_doc_type": "invoice_receipt"})
+        self.sale_journals.write({"bill_doc_type": "invoice_receipt"})
         # Create the Invoice
         move_form = Form(self.AccountMove.with_context(default_move_type="out_invoice"))
         move_form.invoice_date = fields.Date.today()
@@ -123,6 +123,6 @@ class TestBILL(common.TransactionCase):
                 line_form.product_id = product
         invoice = move_form.save()
         invoice.action_post()
-        self.assertEqual(invoice.invoicexpress_doc_type, "invoice_receipt")
-        self.assertEqual(invoice.invoicexpress_id, "12345678")
+        self.assertEqual(invoice.bill_doc_type, "invoice_receipt")
+        self.assertEqual(invoice.bill_id, "12345678")
         self.assertEqual(invoice.name, "FR MYSEQ/123")

@@ -5,7 +5,7 @@
         <field name="inherit_id" ref="base.view_country_form" />
         <field name="arch" type="xml">
             <field name="vat_label" position="after">
-                <field name="invoicexpress_name" groups="base.group_no_one" />
+                <field name="bill_name" groups="base.group_no_one" />
             </field>
         </field>
     </record>

@@ -7,20 +7,20 @@ from odoo import fields, models
 class StockPickingType(models.Model):
     _inherit = "stock.picking.type"
 
-    def _default_invoicexpress_doc_type(self):
+    def _default_bill_doc_type(self):
         return (
             "transport"
-            if self.company_id.has_invoicexpress and self.code == "outgoing"
+            if self.company_id.has_bill and self.code == "outgoing"
             else "none"
         )
 
-    invoicexpress_doc_type = fields.Selection(
+    bill_doc_type = fields.Selection(
         [
             ("transport", "Guia de Transporte / Transport"),
             ("shipping", "Guia de Remessa / Shipping"),
-            ("none", "No InvoiceXpress document"),
+            ("none", "No Bill document"),
         ],
         default="transport",
         help="Select the type of legal delivery document"
-        " to be created by InvoiceXpress. If unset",
+        " to be created by Bill. If unset",
     )

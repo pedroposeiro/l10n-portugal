@@ -6,8 +6,8 @@ import requests
 from odoo import fields
 from odoo.tests import Form, common
 
-from odoo.addons.l10n_pt_account_invoicexpress.tests.test_invoicexpress import (
-    TestInvoiceXpress,
+from odoo.addons.l10n_pt_account_bill.tests.test_bill import (
+    TestBill,
 )
 
 
@@ -20,13 +20,13 @@ def mock_response(json, status_code=200):
 
 
 @common.tagged("-at_install", "post_install")
-class TestInvoiceXpressStock(TestInvoiceXpress):
+class TestBillStock(TestBill):
     def setUp(self):
         super().setUp()
         self.StockPicking = self.env["stock.picking"]
 
     @patch.object(requests, "request")
-    def test_102_create_invoicexpress_picking(self, mock_request):
+    def test_102_create_bill_picking(self, mock_request):
         mock_request.return_value = mock_response(
             {"transport": {"id": 12345678, "inverted_sequence_number": "MYSEQ/123"}}
         )
@@ -65,4 +65,4 @@ class TestInvoiceXpressStock(TestInvoiceXpress):
         )
 
         self.delivery_order.button_validate()
-        self.assertTrue(self.delivery_order.invoicexpress_id)
+        self.assertTrue(self.delivery_order.bill_id)

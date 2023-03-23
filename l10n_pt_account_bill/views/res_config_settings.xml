@@ -1,47 +1,47 @@
 <odoo>
     <data>
         <record id="res_config_settings_view_form" model="ir.ui.view">
-            <field name="name">res.config.settings.view.form.invoicexpress</field>
+            <field name="name">res.config.settings.view.form.bill</field>
             <field name="priority" eval="200" />
             <field name="model">res.config.settings</field>
             <field name="inherit_id" ref="base_setup.res_config_settings_view_form" />
             <field name="arch" type="xml">
                 <xpath expr="//div[@name='integration']" position="after">
-                    <div name="l10n_pt_account_invoicexpress">
+                    <div name="l10n_pt_account_bill">
                         <h2>BILL</h2>
                         <div class="row mt16 o_settings_container">
                             <div class="col-xs-12 col-md-6 o_setting_box">
                                 <div class="o_setting_right_pane">
                                     <a
-                                        href="https://www.app.invoicexpress.com/users/api"
+                                        href="https://www.app.bill.com/users/api"
                                         target="_blank"
                                     ><i
                                             class="fa fa-arrow-right"
                                         /> Generate an API key</a>
                                     <div
                                         class="content-group"
-                                        name="invoicexpress_options"
+                                        name="bill_options"
                                     >
                                         <div class="mt16">
                                             <label
-                                                for="invoicexpress_account_name"
+                                                for="bill_account_name"
                                                 string="BILL Account Name"
                                             />
-                                            <field name="invoicexpress_account_name" />
+                                            <field name="bill_account_name" />
                                         </div>
                                         <div class="mt16">
                                             <label
-                                                for="invoicexpress_api_key"
+                                                for="bill_api_token"
                                                 string="BILL API Key"
                                             />
-                                            <field name="invoicexpress_api_key" />
+                                            <field name="bill_api_token" />
                                         </div>
                                         <div class="mt16">
                                             <label
-                                                for="invoicexpress_template_id"
+                                                for="bill_template_id"
                                                 string="BILL Invoice Email Template"
                                             />
-                                            <field name="invoicexpress_template_id" />
+                                            <field name="bill_template_id" />
                                         </div>
                                     </div>
                                 </div>

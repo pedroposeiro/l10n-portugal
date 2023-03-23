@@ -2,9 +2,9 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Portugal InvoiceXpress Legal Transport Documents",
+    "name": "Portugal Bill Legal Transport Documents",
     "summary": "Portuguese legal transport and shipping documents"
-    " (Guias de Transporte e Guias de Remessa) generated with InvoiceXpress",
+    " (Guias de Transporte e Guias de Remessa) generated with Bill",
     "version": "14.0.3.0.1",
     "author": "Open Source Integrators, Odoo Community Association (OCA)",
     "license": "AGPL-3",
@@ -12,7 +12,7 @@
     "category": "Accounting/Localizations/EDI",
     "maintainers": ["dreispt"],
     "development_status": "Production/Stable",
-    "depends": ["l10n_pt_account_invoicexpress", "sale_stock"],
+    "depends": ["l10n_pt_account_bill", "sale_stock"],
     "data": [
         "views/res_company_view.xml",
         "views/res_config_settings.xml",
