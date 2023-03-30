@@ -120,17 +120,26 @@ class AccountMove(models.Model):
             tax_detail = {"name": tax.name or "IVA0", "value": tax.amount or 0.0}
             items.update(
                 {
-                    "produtos[{}][nome]".format(i): 'RR2',#line.product_id.default_code or line.product_id.display_name,
-                    "produtos[{}][motivo_isencao_id]".format(i): 1,
+                    "produtos[{}][nome]".format(i): line.product_id.default_code or line.product_id.display_name,
                     "produtos[{}][quantidade]".format(i): line.quantity,
                     "produtos[{}][preco_unitario]".format(i): line.price_unit,
                     "produtos[{}][unidade_medida_id]".format(i): 1679,
-                    "produtos[{}][item_id]".format(i): 12244,
+                    "produtos[{}][imposto]".format(i): tax.amount,
+                    #"produtos[{}][isencao]".format(i): tax.amount,
+                    "produtos[{}][desconto_1]".format(i): line.discount,
+
+                    #"produtos[{}][motivo_isencao_id]".format(i): 1,
+                    #"produtos[{}][item_id]".format(i): 12244,
                     #'nome": line._get_bill_descr(),
                     #"imposto": tax_detail,
                     #"desconto_1": line.discount
                 }
             )
+            if self.bill_doc_type == 'credit_note':
+                items.update({
+                    #"produtos[{}][lancamento_pai_id]".format(i): int(self.reversed_entry_id.bill_id)
+                    "produtos[{}][referencia_manual]".format(i): self.reversed_entry_id.display_name
+                })
         return items
 
     def _get_bill_partner(self):
@@ -147,17 +156,24 @@ class AccountMove(models.Model):
         customer_vals = customer.set_bill_contact()
         items = self._prepare_bill_lines()
         proprietary_uid = "ODOO" + str(uuid.uuid4()).replace("-", "")
+
+        tipificacao = self._get_bill_prefix(self.bill_doc_type)
+
         invoice_data = {
             #"data": self.invoice_date.strftime("%Y-%m-%d %H:%m:%s"),
             #"prazo_vencimento": self.invoice_date_due.strftime("%Y-%m-%d %H:%m:%s"),
             #"reference": self.ref or "",
-            "tipificacao": "FT",
+            "tipificacao": "{}".format(tipificacao),
             #"tipo_documento_id": 1,
             #"contato_id": customer_vals['codigo'],
             #"contato[nome]": customer_vals['nome'],
             #"observacoes": self.narration or "",
             #"proprietary_uid": proprietary_uid,
         }
+
+        if self.bill_doc_type in ("credit_note", "debit_note"):
+            invoice_data.update({"motivo": self.ref})
+        
         invoice_data.update(customer_vals)
         invoice_data.update(items)
         invoice_data.update({"terminado": 1})
@@ -174,11 +190,11 @@ class AccountMove(models.Model):
             invoice_data["invoice"].update(
                 {"currency_code": self.currency_id.name, "rate": str(currency_rate)}
             )'''
-        doctype = self.bill_doc_type
-        if doctype in ("credit_note", "debit_note"):
+        #doctype = self.bill_doc_type
+        '''if doctype in ("credit_note", "debit_note"):
             owner_invoice_num = self.reversed_entry_id.bill_id
             if owner_invoice_num:
-                invoice_data["invoice"]["owner_invoice_id"] = owner_invoice_num
+                invoice_data["invoice_owner_invoice_id"] = owner_invoice_num'''
         return invoice_data
 
     def _update_bill_status(self):
@@ -236,7 +252,7 @@ class AccountMove(models.Model):
             content = response.content.replace(b'/JS', b'//JS')
 
             attachment = self.env['ir.attachment'].create({
-                'name': 'fatura.pdf',
+                'name': '{}.pdf'.format(invx_number),
                 'type': 'binary',
                 'datas': base64.b64encode(content),
                 'res_model': 'account.move',
@@ -304,6 +320,36 @@ class AccountMove(models.Model):
                 invoice.action_create_bill_invoice()
                 invoice.action_send_bill_email(ignore_no_config=True)
         return res
+
+class AccountPaymentRegister(models.TransientModel):
+    _inherit = 'account.payment.register'
+
+    def action_create_payments(self):
+        payments = self._create_payments()
+        
+        if payments['payment_state'] == 'not_paid':
+            payments.action_create_bill_receipt()
+
+        if self._context.get('dont_redirect_to_payments'):
+            return True
+
+        action = {
+            'name': _('Payments'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.payment',
+            'context': {'create': False},
+        }
+        if len(payments) == 1:
+            action.update({
+                'view_mode': 'form',
+                'res_id': payments.id,
+            })
+        else:
+            action.update({
+                'view_mode': 'tree,form',
+                'domain': [('id', 'in', payments.ids)],
+            })
+        return action
 
 
 class AccountMoveLine(models.Model):

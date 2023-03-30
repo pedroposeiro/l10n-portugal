@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Account Move form view extended -->
+    <record model="ir.ui.view" id="view_account_move_form">
+        <field name="name">account.payment.form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+
+            <!--button name="mark_as_sent" position="before">
+                <button
+                    name="action_create_bill_invoice"
+                    string="Create BILL"
+                    type="object"
+                    attrs="{'invisible': ['|', ('can_bill', '=', False)]}"
+                    groups="base.group_no_one"
+                />
+                
+                <button
+                    name="action_send_bill_email"
+                    string="Email BILL2"
+                    type="object"
+                    attrs="{'invisible': ['|', ('can_bill_email', '=', False)]}"
+                />
+            </button-->
+
+        </field>
+    </record>
+</odoo>
