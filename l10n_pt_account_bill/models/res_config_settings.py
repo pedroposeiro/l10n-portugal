@@ -14,6 +14,17 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.bill_api_token",
         readonly=False,
     )
+
+    username_at = fields.Char(
+        #related="company_id.username_at",
+        readonly=False,
+    )
+
+    password_at = fields.Char(
+        #related="company_id.password_at",
+        readonly=False,
+    )
+
     bill_template_id = fields.Many2one(
         related="company_id.bill_template_id", readonly=False
     )

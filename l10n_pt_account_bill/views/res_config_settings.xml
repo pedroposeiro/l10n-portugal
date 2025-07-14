@@ -43,6 +43,20 @@
                                             />
                                             <field name="bill_template_id" />
                                         </div>
+                                        <div class="mt16">
+                                            <label
+                                                for="username_at"
+                                                string="AT Username"
+                                            />
+                                            <field name="username_at" />
+                                        </div>
+                                        <div class="mt16">
+                                            <label
+                                                for="password_at"
+                                                string="AT Password"
+                                            />
+                                            <field name="password_at" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>

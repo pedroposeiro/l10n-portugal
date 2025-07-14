@@ -13,8 +13,8 @@ class ResPartner(models.Model):
         self.ensure_one()
         vals = {
             "nome": self.name,
-            "pais": self.country_id.code,
-            "codigo": "ODOO-{}".format(self.ref or self.id),
+            "pais": self.country_id.code if self.country_id else "PT",
+            "codigo": "ODOO----{}".format(self.ref or self.id),
             "nif": self.vat,
             "email": self.email,
             "morada": ", ".join(filter(None, [self.street, self.street2])),

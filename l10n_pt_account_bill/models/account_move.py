@@ -120,12 +120,12 @@ class AccountMove(models.Model):
             tax_detail = {"name": tax.name or "IVA0", "value": tax.amount or 0.0}
             items.update(
                 {
-                    "produtos[{}][nome]".format(i): line.product_id.default_code or line.product_id.display_name,
+                    "produtos[{}][nome]".format(i): line.product_id.display_name,
                     "produtos[{}][quantidade]".format(i): line.quantity,
                     "produtos[{}][preco_unitario]".format(i): line.price_unit,
                     "produtos[{}][unidade_medida_id]".format(i): 1679,
                     "produtos[{}][imposto]".format(i): tax.amount,
-                    #"produtos[{}][isencao]".format(i): tax.amount,
+                    "produtos[{}][isencao]".format(i): 7,
                     "produtos[{}][desconto_1]".format(i): line.discount,
 
                     #"produtos[{}][motivo_isencao_id]".format(i): 1,
@@ -327,7 +327,7 @@ class AccountPaymentRegister(models.TransientModel):
     def action_create_payments(self):
         payments = self._create_payments()
         
-        if payments['payment_state'] == 'not_paid':
+        if not payments['payment_state']:
             payments.action_create_bill_receipt()
 
         if self._context.get('dont_redirect_to_payments'):

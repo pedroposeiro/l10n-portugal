@@ -6,7 +6,10 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form" />
         <field name="arch" type="xml">
-
+            <xpath expr="//field[@name='message_ids']" position="replace">
+                <field name="message_ids" options="{'open_attachments': True}"/>
+            </xpath>
+            
             <div name="journal_div" position="after">
                 <field name="can_bill" invisible="1" />
                 <field name="can_bill_email" invisible="1" />

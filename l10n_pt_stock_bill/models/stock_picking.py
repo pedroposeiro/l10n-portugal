@@ -125,8 +125,7 @@ class StockPicking(models.Model):
             tax_detail = {"name": tax.name} if tax else {}
             items.append(
                 {
-                    "name": line.product_id.default_code
-                    or line.product_id.display_name,
+                    "name": line.product_id.display_name,
                     "description": line.product_id.name or "",  # line.name for SO desc
                     # TODO: add an option to allow having the prices set?
                     "unit_price": 0.0,  # line.sale_line_id.price_unit,
