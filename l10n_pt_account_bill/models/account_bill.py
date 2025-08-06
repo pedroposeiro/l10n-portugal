@@ -31,9 +31,9 @@ class BILL(models.AbstractModel):
     def _build_url(self, config, path):
         # For PROD would be app.bill.pt
         if path.startswith('documentos/download'):
-            base_url = "https://dev.bill.pt/"
+            base_url = "https://app.bill.pt/"
         else:
-            base_url = "https://dev.bill.pt/api/1.0/"
+            base_url = "https://app.bill.pt/api/1.0/"
         
         return url_join(base_url, path)
 

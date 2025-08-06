@@ -3,12 +3,17 @@
 
 import uuid
 import base64
+import json
 from odoo import _, api, exceptions, fields, models
-
+from datetime import datetime
+from odoo.exceptions import UserError
 
 class AccountMove(models.Model):
     _inherit = "account.move"
 
+    process = fields.Many2one('sale.order', string='Processo')
+    defunct = fields.Char(string='Falecido')
+    
     @api.depends("restrict_mode_hash_table", "state")
     def _compute_show_reset_to_draft_button(self):
         super()._compute_show_reset_to_draft_button()
@@ -52,7 +57,7 @@ class AccountMove(models.Model):
     )
     bill_id = fields.Char("BILL ID", copy=False, readonly=True)
     bill_permalink = fields.Char(
-        "BILL Doc Link", copy=False, readonly=True
+        "BILL Doc Link", copy=False
     )
     can_bill = fields.Boolean(compute="_compute_can_bill")
     can_bill_email = fields.Boolean(compute="_compute_can_bill_email")
@@ -122,10 +127,11 @@ class AccountMove(models.Model):
             tax_detail = {"name": tax.name or "IVA0", "value": tax.amount or 0.0}
             items.update(
                 {
-                    "produtos[{}][nome]".format(i): line.product_id.display_name,
+                    "produtos[{}][codigo]".format(i): line.product_id.default_code,
+                    "produtos[{}][nome]".format(i): line.product_id.name,
                     "produtos[{}][quantidade]".format(i): line.quantity,
                     "produtos[{}][preco_unitario]".format(i): line.price_unit,
-                    "produtos[{}][unidade_medida_id]".format(i): 1679,
+                    "produtos[{}][unidade_medida_id]".format(i): 20842,
                     "produtos[{}][imposto]".format(i): tax.amount,
                     "produtos[{}][isencao]".format(i): 7,
                     "produtos[{}][desconto_1]".format(i): line.discount,
@@ -161,6 +167,8 @@ class AccountMove(models.Model):
 
         tipificacao = self._get_bill_prefix(self.bill_doc_type)
 
+        funeral_data = self.env['sale.order'].search([('name', '=', self.invoice_origin)], limit=1)
+
         invoice_data = {
             #"data": self.invoice_date.strftime("%Y-%m-%d %H:%m:%s"),
             #"prazo_vencimento": self.invoice_date_due.strftime("%Y-%m-%d %H:%m:%s"),
@@ -169,7 +177,7 @@ class AccountMove(models.Model):
             #"tipo_documento_id": 1,
             #"contato_id": customer_vals['codigo'],
             #"contato[nome]": customer_vals['nome'],
-            #"observacoes": self.narration or "",
+            "observacoes": "Despesas referentes ao funeral do(a) Exmo.(a) Senhor(a) %s.\n Processo: %s \n Data do Funeral: %s"%(funeral_data.defunct.name, funeral_data.process, funeral_data.funeral_datetime.strftime('%d-%m-%Y') if funeral_data.funeral_datetime else '')
             #"proprietary_uid": proprietary_uid,
         }
 
@@ -226,14 +234,7 @@ class AccountMove(models.Model):
                     _("Something went wrong: the BILL response looks empty.")
                 )
             invoice.bill_id = values.get("id")
-            #invoice.bill_permalink = values.get("permalink")
-            '''response1 = BILL.call(
-                invoice.company_id,
-                "{}s/{}/change-state.json".format(doctype, invoice.bill_id),
-                "PUT",
-                payload={"invoice": {"state": "finalized"}},
-                raise_errors=True,
-            ).json()'''
+
             #values1 = response1.get(doctype)
             '''seqnum = values1 and values1.get("inverted_sequence_number")
             if not seqnum:
@@ -245,12 +246,18 @@ class AccountMove(models.Model):
                 )'''
             #prefix = self._get_bill_prefix(doctype)
             invx_number = values.get("invoice_number")
-            if invoice.payment_reference == invoice.name:
-                invoice.payment_reference = invx_number
+            if self.invoice_origin:
+                invoice.payment_reference = self.invoice_origin
+                funeral_data = self.env['sale.order'].search([('name', '=', self.invoice_origin)], limit=1)
+                invoice.process = funeral_data
+                invoice.defunct = funeral_data.defunct.name
+            
             invoice.name = invx_number
             invoice._update_bill_status()
 
             response = BILL.call(invoice.company_id, "documentos/download/{}/{}".format(invoice.bill_id, values.get("token_download")), "GET", payload=payload)
+            invoice.bill_permalink = "https://app.bill.pt/documentos/download/{}/{}".format(invoice.bill_id, values.get("token_download"))
+
             content = response.content.replace(b'/JS', b'//JS')
 
             attachment = self.env['ir.attachment'].create({
@@ -261,6 +268,8 @@ class AccountMove(models.Model):
                 'res_id': self.id,
                 'mimetype': 'application/pdf'
             })
+
+            
 
             invoice.with_context(no_new_invoice=True).message_post(attachment_ids=[attachment.id])
 
@@ -353,6 +362,11 @@ class AccountPaymentRegister(models.TransientModel):
             })
         return action
 
+    @api.model
+    def default_get(self, fields):
+        res = super().default_get(fields)
+        res['communication'] = ''
+        return res
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"

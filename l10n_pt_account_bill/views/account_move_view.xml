@@ -35,7 +35,11 @@
                         'invisible': [('can_bill', '=', False)]
                     }"
                 />
+                <field name="process" />
+                <field name="defunct" />
+
             </div>
+
             <xpath expr="//notebook//page[@name='other_info']" position="after">
                 <page
                     name="bill"

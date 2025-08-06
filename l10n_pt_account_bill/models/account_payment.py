@@ -63,10 +63,11 @@ class AccountPayment(models.Model):
 
         customer = self._get_bill_partner()
         items = self._prepare_receipt_lines()
-
+        funeral_data = self.reconciled_invoice_ids.process
         receipt_data = {
             "tipo_documento_id": 28,
-            "contato_id": int(customer.bill_id)
+            "contato_id": int(customer.bill_id),
+            "observacoes": "Despesas referentes ao funeral do(a) Exmo.(a) Senhor(a) %s.\n Processo: %s \n Data do Funeral: %s"%(funeral_data.defunct.name, funeral_data.process, funeral_data.funeral_datetime.strftime('%d-%m-%Y') if funeral_data.funeral_datetime else ''),
         }
         
         receipt_data.update(items)
@@ -115,6 +116,15 @@ class AccountPayment(models.Model):
             'datas': base64.b64encode(content),
             'res_model': 'account.payment',
             'res_id': self.id,
+            'mimetype': 'application/pdf'
+        })
+        
+        attachment = self.env['ir.attachment'].create({
+            'name': '{}.pdf'.format(values.get('invoice_number')),
+            'type': 'binary',
+            'datas': base64.b64encode(content),
+            'res_model': 'account.move',
+            'res_id': self.reconciled_invoice_ids.id,
             'mimetype': 'application/pdf'
         })
 
