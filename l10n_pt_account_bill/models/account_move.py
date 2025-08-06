@@ -76,6 +76,8 @@ class AccountMove(models.Model):
         " If unset, BILL will not be used.",
     )
 
+    cancel_reason = fields.Char("Motivo da Anulação", readonly=True)
+
     @api.constrains("journal_id", "company_id")
     def _check_bill_doctype_config(self):
         """
@@ -366,3 +368,64 @@ class AccountMoveLine(models.Model):
         if ref and self.name.startswith(prefix):
             res = self.name[len(prefix) :]
         return res
+
+class AccountInvoiceCancelWizard(models.TransientModel):
+    _name = 'account.invoice.cancel.wizard'
+    _description = 'Cancel Invoice with Reason'
+
+    reason = fields.Char(
+        string="Motivo da Anulação",
+        required=True,
+        size=200
+    )
+
+    def action_cancel_invoice(self):
+        for move in self:
+            if move.state == 'posted':
+                move.state = 'cancel'
+
+
+
+    def action_confirm_cancel(self):
+        active_ids = self.env.context.get('active_ids')
+        if not active_ids:
+            raise UserError(_("Nenhuma fatura selecionada."))
+
+        invoices = self.env['account.move'].browse(active_ids)
+        for move in invoices:
+            if move.state == 'cancel':
+                continue
+            if move.state == 'posted':
+                move.write({
+                    'state': 'cancel',
+                    'cancel_reason': self.reason,
+                })
+                BILL = self.env["account.bill"]
+
+                try:
+                    payload = { 
+                                "id": move.bill_id,
+                                "motivo_anular": self.reason,
+                                "data": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                                }
+
+                    BILL.call(move.company_id, "documentos", "PATCH", payload=payload).json()
+                except:
+                    pass
+
+                doc_details = BILL.call(move.company_id, "documentos/{}".format(move.bill_id), "GET")
+                
+                if json.loads(doc_details.content).get('estado') == 'A':
+                    token_download = json.loads(doc_details.content).get('token_download')
+
+                    response = BILL.call(move.company_id, "documentos/download/{}/{}".format(move.bill_id, token_download), "GET", payload=payload)
+                    content = response.content.replace(b'/JS', b'//JS')
+
+                    self.env['ir.attachment'].create({
+                        'name': '{}_Anulada.pdf'.format(move.name),
+                        'type': 'binary',
+                        'datas': base64.b64encode(content),
+                        'res_model': 'account.move',
+                        'res_id': move.id,
+                        'mimetype': 'application/pdf'
+                    })

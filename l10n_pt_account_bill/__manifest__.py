@@ -22,6 +22,7 @@
         "views/res_country_view.xml",
         "data/mail_template.xml",
         "data/res.country.csv",
+        'security/ir.model.access.csv',
     ],
     "images": ["static/description/cover.png"],
     "application": True,
