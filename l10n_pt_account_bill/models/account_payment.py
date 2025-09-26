@@ -62,6 +62,8 @@ class AccountPayment(models.Model):
         self.ensure_one()
 
         customer = self._get_bill_partner()
+        if not customer.bill_id:
+            customer.set_bill_contact()
         items = self._prepare_receipt_lines()
         funeral_data = self.reconciled_invoice_ids.process
         receipt_data = {

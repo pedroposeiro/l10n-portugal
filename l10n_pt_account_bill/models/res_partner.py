@@ -41,7 +41,7 @@ class ResPartner(models.Model):
                 payload=vals,
                 raise_errors=False,
             )
-            if response.text == '{"error":["231"]}':  # Oh, it already exists!
+            if response.text == '{"error":["231"]}' or response.text == '{"error":["253"]}':  # Oh, it already exists!
                 response = BILL.call(
                     company,
                     doctype,
