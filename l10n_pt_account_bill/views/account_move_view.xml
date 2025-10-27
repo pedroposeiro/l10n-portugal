@@ -35,8 +35,8 @@
                         'invisible': [('can_bill', '=', False)]
                     }"
                 />
-                <field name="process" />
-                <field name="defunct" />
+                <field name="process" readonly="1"/>
+                <field name="defunct" readonly="1"/>
 
             </div>
 

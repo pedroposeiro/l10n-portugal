@@ -57,13 +57,16 @@ class ResPartner(models.Model):
 
         if invx_id_to_update:
             # Update: PUT /clients/$(client-id).json
-            response = BILL.call(
-                company,
-                "{}/{}".format(doctype, self.bill_id),
-                "PATCH",
-                payload=vals,
-                raise_errors=True,
-            )
+            try:
+                response = BILL.call(
+                    company,
+                    "{}/{}".format(doctype, self.bill_id),
+                    "PATCH",
+                    payload=vals,
+                    raise_errors=True,
+                )
+            except Exception as e:
+                pass
         
         val_final={} 
         for key,val in vals.items():
