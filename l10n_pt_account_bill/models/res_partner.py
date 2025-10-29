@@ -14,7 +14,7 @@ class ResPartner(models.Model):
         vals = {
             "nome": self.name,
             "pais": self.country_id.code if self.country_id else "PT",
-            "codigo": "ODOO----{}".format(self.ref or self.id),
+            "codigo": "ODOO-A{}".format(self.ref or self.id),
             "nif": self.vat,
             "email": self.email,
             "morada": ", ".join(filter(None, [self.street, self.street2])),
@@ -66,7 +66,28 @@ class ResPartner(models.Model):
                     raise_errors=True,
                 )
             except Exception as e:
-                pass
+                # Create: POST /clients.json
+                vals["codigo"]  = "ODOO-B{}".format(self.ref or self.id)
+                response = BILL.call(
+                    company,
+                    doctype,
+                    "POST",
+                    payload=vals,
+                    raise_errors=False,
+                )
+                if response.text == '{"error":["231"]}' or response.text == '{"error":["253"]}':  # Oh, it already exists!
+                    response = BILL.call(
+                        company,
+                        doctype,
+                        "GET",
+                        payload={"pesquisa[codigo]": vals["codigo"]},
+                    )
+                    values = response.json()['data'][0]
+                    invx_id_to_update = values.get("id")  # Update is needed!
+                else:
+                    values = response.json()
+                
+                self.bill_id = values.get("id")
         
         val_final={} 
         for key,val in vals.items():
