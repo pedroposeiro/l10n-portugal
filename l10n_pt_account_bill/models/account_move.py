@@ -410,10 +410,6 @@ class AccountInvoiceCancelWizard(models.TransientModel):
             if move.state == 'cancel':
                 continue
             if move.state == 'posted':
-                move.write({
-                    'state': 'cancel',
-                    'cancel_reason': self.reason,
-                })
                 BILL = self.env["account.bill"]
 
                 try:
@@ -424,22 +420,28 @@ class AccountInvoiceCancelWizard(models.TransientModel):
                                 }
 
                     BILL.call(move.company_id, "documentos", "PATCH", payload=payload).json()
-                except:
-                    pass
 
-                doc_details = BILL.call(move.company_id, "documentos/{}".format(move.bill_id), "GET")
-                
-                if json.loads(doc_details.content).get('estado') == 'A':
-                    token_download = json.loads(doc_details.content).get('token_download')
-
-                    response = BILL.call(move.company_id, "documentos/download/{}/{}".format(move.bill_id, token_download), "GET", payload=payload)
-                    content = response.content.replace(b'/JS', b'//JS')
-
-                    self.env['ir.attachment'].create({
-                        'name': '{}_Anulada.pdf'.format(move.name),
-                        'type': 'binary',
-                        'datas': base64.b64encode(content),
-                        'res_model': 'account.move',
-                        'res_id': move.id,
-                        'mimetype': 'application/pdf'
+                    move.write({
+                        'state': 'cancel',
+                        'cancel_reason': self.reason,
                     })
+
+                    doc_details = BILL.call(move.company_id, "documentos/{}".format(move.bill_id), "GET")
+                    
+                    if json.loads(doc_details.content).get('estado') == 'A':
+                        token_download = json.loads(doc_details.content).get('token_download')
+
+                        response = BILL.call(move.company_id, "documentos/download/{}/{}".format(move.bill_id, token_download), "GET", payload=payload)
+                        content = response.content.replace(b'/JS', b'//JS')
+
+                        self.env['ir.attachment'].create({
+                            'name': '{}_Anulada.pdf'.format(move.name),
+                            'type': 'binary',
+                            'datas': base64.b64encode(content),
+                            'res_model': 'account.move',
+                            'res_id': move.id,
+                            'mimetype': 'application/pdf'
+                        })
+                except:
+                    raise UserError(_("Não é possível anular esta fatura."))
+

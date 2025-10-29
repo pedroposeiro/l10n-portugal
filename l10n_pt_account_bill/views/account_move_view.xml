@@ -19,7 +19,7 @@
             </xpath>
             <xpath expr="//header" position="inside">
                 <button name="%(l10n_pt_account_bill.action_open_cancel_wizard)d"
-                        string="Anular Fatura"
+                        string="Anular"
                         type="action"
                         class="btn-danger"
                         attrs="{'invisible': [('state', '=', 'cancel')]}"/>
