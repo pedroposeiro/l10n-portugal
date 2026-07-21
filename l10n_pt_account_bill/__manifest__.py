@@ -4,7 +4,7 @@
 {
     "name": "Portugal BILL Integration",
     "summary": "Portuguese certified invoices using BILL",
-    "version": "14.0.4.2.0",
+    "version": "19.0.1.0.0",
     "author": "Open Source Integrators, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-portugal",

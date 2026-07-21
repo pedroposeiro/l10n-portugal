@@ -12,12 +12,12 @@
                 <div name="journal_div" position="after">
                     <field
                         name="l10npt_vat_exempt_reason"
-                        attrs="{'invisible': [('country_code', '!=', 'PT')]}"
+                        invisible="country_code != 'PT'"
                     />
                     <field name="move_type" invisible="1" />
                     <field
                         name="vat_adjustment_norm_id"
-                        attrs="{'invisible': ['|',('country_code', '!=', 'PT'),('move_type', 'not in', ['out_refund', 'in_refund'])]}"
+                        invisible="(country_code != 'PT' or move_type not in ['out_refund', 'in_refund'])"
                         domain="[('move_type', '=', move_type)]"
                     />
                 </div>

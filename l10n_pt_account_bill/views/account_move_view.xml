@@ -14,15 +14,17 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='message_ids']" position="replace">
-                <field name="message_ids" options="{'open_attachments': True}"/>
+            <!-- Porte 19: o chatter deixou de ser <field name="message_ids"> e
+                 passou a <chatter/>; open_attachments é atributo directo. -->
+            <xpath expr="//chatter" position="attributes">
+                <attribute name="open_attachments">True</attribute>
             </xpath>
             <xpath expr="//header" position="inside">
                 <button name="%(l10n_pt_account_bill.action_open_cancel_wizard)d"
                         string="Anular"
                         type="action"
                         class="btn-danger"
-                        attrs="{'invisible': [('state', '=', 'cancel')]}"/>
+                        invisible="state == 'cancel'"/>
             </xpath>
 
             <div name="journal_div" position="after">
@@ -30,10 +32,7 @@
                 <field name="can_bill_email" invisible="1" />
                 <field
                     name="bill_doc_type"
-                    attrs="{
-                        'readonly': [('posted_before', '=', True)],
-                        'invisible': [('can_bill', '=', False)]
-                    }"
+                    readonly="posted_before == True" invisible="can_bill == False"
                 />
                 <field name="process" readonly="1"/>
                 <field name="defunct" readonly="1"/>
@@ -44,7 +43,7 @@
                 <page
                     name="bill"
                     string="BILL"
-                    attrs="{'invisible': [('bill_id', '=', False)]}"
+                    invisible="bill_id == False"
                 >
                     <group>
                         <field name="bill_id" />
@@ -53,16 +52,14 @@
                 </page>
             </xpath>
             <button name="action_invoice_sent" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible': [('can_bill', '=', True)]}</attribute>
+                <attribute name="invisible">can_bill == True</attribute>
             </button>
             <button name="preview_invoice" position="before">
                 <!--button
                     name="action_create_bill_invoice"
                     string="Create BILL"
                     type="object"
-                    attrs="{'invisible': ['|', ('can_bill', '=', False), ('bill_id', '!=', False)]}"
+                    invisible="(can_bill == False or bill_id != False)"
                     groups="base.group_no_one"
                 /-->
                 
@@ -70,7 +67,7 @@
                     name="action_send_bill_email"
                     string="Email BILL2"
                     type="object"
-                    attrs="{'invisible': ['|', ('can_bill_email', '=', False), ('bill_id', '=', False)]}"
+                    invisible="(can_bill_email == False or bill_id == False)"
                 />
             </button>
 

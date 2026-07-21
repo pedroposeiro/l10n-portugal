@@ -10,7 +10,7 @@
             <page name="advanced_settings" position="inside">
                 <group
                     string="Bill"
-                    attrs="{'invisible': [('type', '!=', 'sale')]}"
+                    invisible="type != 'sale'"
                 >
                     <field name="bill_doc_type" />
                     <field name="use_bill" groupe="base.group_no_one" />

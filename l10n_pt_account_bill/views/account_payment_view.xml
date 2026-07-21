@@ -12,7 +12,7 @@
                     name="action_create_bill_invoice"
                     string="Create BILL"
                     type="object"
-                    attrs="{'invisible': ['|', ('can_bill', '=', False)]}"
+                    invisible="can_bill == False"
                     groups="base.group_no_one"
                 />
                 
@@ -20,7 +20,7 @@
                     name="action_send_bill_email"
                     string="Email BILL2"
                     type="object"
-                    attrs="{'invisible': ['|', ('can_bill_email', '=', False)]}"
+                    invisible="can_bill_email == False"
                 />
             </button-->
 
